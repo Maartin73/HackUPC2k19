@@ -27,7 +27,7 @@ export default class FriendForm extends Component {
         <form ref="form" class="form-inline pt-md-3 pl-md-5" onSubmit={this.onSubmit}>
           <input class="form-control mr-sm-2" type="search" ref="friendName" placeholder="Name" aria-label="Search"></input>
           <input class="form-control mr-sm-2" type="search" ref="friendOrigin" placeholder="Origin" aria-label="Search"></input>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add</button>
+          <button class="btn btn-info success my-2 my-sm-0" type="submit">Add</button>
         </form>
         // <form ref="form" onSubmit={this.onSubmit} className="form-inline">
         //   <input type="text" ref="itemName" className="form-control" placeholder="add a new todo..."/>

@@ -8,6 +8,7 @@ import Map from '../../Map.js';
 // import { bindActionCreators } from "redux";
 // import * as AppActions from "../../store/App/actions";
 export default class App extends Component {
+  
 
   constructor (props) {
     super(props);
@@ -15,6 +16,28 @@ export default class App extends Component {
     this.removeFriend = this.removeFriend.bind(this);
     this.friends = this.props.initFriends;
     this.state = {friends: this.friends};
+
+    // Create a request variable and assign a new XMLHttpRequest object to it.
+    var request = new XMLHttpRequest()
+
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', 'http://partners.api.skyscanner.net/apiservices/autosuggest/v1.0/UK/GBP/enUS?query=&apiKey=skyscanner-hackupc2019', true)
+
+    request.onload = function() {
+      // Begin accessing JSON data here
+      var data = JSON.parse(this.response)
+
+      if (request.status >= 200 && request.status < 400) {
+        data.forEach(place => {
+          console.log(place.PlaceName)
+        })
+      } else {
+        console.log('error')
+      }
+    }
+
+    // Send request
+    request.send()
   }
 
   addFriend(friend) {
@@ -41,8 +64,8 @@ export default class App extends Component {
               <span class="navbar-toggler-icon"></span>
             </button>
           </nav>
-          <div class="row ">
-            <div class="col-5">
+          <div class="row justify-content-center bg-secondary">
+            <div class="col-5 justify-content-center align-items-center pt-md-3 pl-md-5 pb-md-3">
               <div class="row justify-content-center align-items-center">
                 <FriendForm addFriend={this.addFriend} />
               </div>
@@ -50,14 +73,13 @@ export default class App extends Component {
                 <FriendList friends={this.props.initFriends} removeFriend={this.removeFriend}/>
               </div>
               <div class="row justify-content-center align-items-center pt-md-3 pl-md-5">
-                <a href="#" class="btn btn-info btn-lg">
-                  <span class="glyphicon glyphicon-plus-sign"></span> Search
-                </a>
+                <a href="#" class="btn btn-info btn-lg"> Search </a>
               </div>
             </div>
-            <div class="col"></div>
+            <div class="col justify-content-center align-items-center pt-md-3 pl-md-5 pb-md-3">
+              <Map/>
+            </div>
           </div>
-          <Map/>
         </Fragment>
       );
     }
