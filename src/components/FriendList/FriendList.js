@@ -7,9 +7,10 @@ import Friend from '../Friend';
 export default class FriendList extends Component {
     render () {
       var friends = this.props.friends.map((item, index) => {
-        console.log(index + " Shit works!");
         return (
-          <Friend key={index} friend={item} index={index} removeFriend={this.props.removeFriend}/>
+          <div class="m-1">
+            <Friend key={index} friend={item} index={index} removeFriend={this.props.removeFriend}/>
+          </div>
         );
       });
       return (
