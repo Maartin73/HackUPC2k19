@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './App.css'
 import { Fragment } from 'react';
-import {
-  Navbar, NavbarBrand, Nav, NavItem, NavLink
-} from 'reactstrap';
 import FriendForm from '../FriendForm';
 import FriendList from '../FriendList';
 // import { connect } from "react-redux";
@@ -38,18 +35,28 @@ export default class App extends Component {
       return (
         <Fragment>
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">RepliScanner</a>
+            <h1>RepliScanner</h1>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
           </nav>
-          <container>
-            <div class="row justify-content-left align-items-center">
-              <FriendList friends={this.props.initFriends} removeFriend={this.removeFriend}/>
-              <FriendForm addFriend={this.addFriend} />
+          <div class="row ">
+            <div class="col-5">
+              <div class="row justify-content-center align-items-center">
+                <FriendForm addFriend={this.addFriend} />
+              </div>
+              <div class="row justify-content-center align-items-center pt-md-3 pl-md-5">
+                <FriendList friends={this.props.initFriends} removeFriend={this.removeFriend}/>
+              </div>
+              <div class="row justify-content-center align-items-center pt-md-3 pl-md-5">
+                <a href="#" class="btn btn-info btn-lg">
+                  <span class="glyphicon glyphicon-plus-sign"></span> Search
+                </a>
+              </div>
             </div>
-          </container>
-          </Fragment>
+            <div class="col"></div>
+          </div>
+        </Fragment>
       );
     }
   }
