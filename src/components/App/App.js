@@ -4,9 +4,7 @@ import { Fragment } from 'react';
 import FriendForm from '../FriendForm';
 import FriendList from '../FriendList';
 import Map from '../../Map.js';
-// import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
-// import * as AppActions from "../../store/App/actions";
+
 export default class App extends Component {
   
 
@@ -83,8 +81,4 @@ export default class App extends Component {
         </Fragment>
       );
     }
-  }
-// export default connect(
-//     ({ App }) => ({ ...App }),
-//     dispatch => bindActionCreators({ ...AppActions }, dispatch)
-//   )( App );
+  };

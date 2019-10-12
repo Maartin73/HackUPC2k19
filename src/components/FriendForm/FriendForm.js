@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import './FriendForm.css'
-// import { connect } from "react-redux";
-// import { bindActionCreators } from "redux";
-// import * as FriendFormActions from "../../store/FriendForm/actions";
 export default class FriendForm extends Component {
 
     constructor(props) {
@@ -11,7 +8,14 @@ export default class FriendForm extends Component {
       this.onSubmit = this.onSubmit.bind(this);
       this.state = {places: []};
       console.log(this.state.places);
-      console.log("done");
+    }
+
+    sortByCity(property) {
+      return function(a, b) {
+        if (a[property] > b[property]) return 1;
+        else if (a[property] < b[property]) return -1;
+        return 0;
+      }
     }
 
     initPlaces() {
@@ -22,28 +26,39 @@ export default class FriendForm extends Component {
         }
       }).then(response => response.json())
       .then((responseData) => {
-        var result = [];
-        var select = $('<select class="selectpicker" data-live-search="true" title="Search Origin"></select>');
-        var jsonCityAirports;
+        var citiesArray = [];
         responseData["Continents"].forEach(function(country) {
           country["Countries"].forEach(function(cities) {
-            cities["Cities"].forEach(function(city) {
-              var jsonTemp ={};
+            cities["Cities"].forEach(function(city) { 
+              var jsonTemp = {};
               jsonTemp["Name"] = city["Name"];
-              select.append($("<option>"+city['Name']+"</option>"));
-              jsonCityAirports = [];
+              jsonTemp["Country"] = cities["Name"];
+              
+              var jsonCityAirports=[];
               city["Airports"].forEach(function(airport) {
                 jsonCityAirports.push({name: airport["Name"], location: airport["Location"]});
               });
+
               jsonTemp["Airports"] = jsonCityAirports;
-              result.push(jsonTemp);
+              citiesArray.push(jsonTemp);
             });
           });
         });
-        this.setState({places: result});
-        console.log(result);
-        $('#form').append(select);
-        $('.selectpicker').selectpicker('refresh');
+        citiesArray.sort(this.sortByCity("Name"));
+        console.log(citiesArray);
+
+        var result;
+        var select = $('<div class="dropdown" title="Search Origin" style="display: block !important;"></div>');
+        var dropdown = $('<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown button</button>');
+        var options = $('<div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton"></div');
+
+        citiesArray.forEach(function(city){
+          options.append($('<a class="dropdown-item" href="#"> <b>'+city['Name']+"</b><p>"+city['Country']+"</p></a>"));
+        });
+
+        select.append(dropdown);
+        select.append(options);
+        $('#selectDropdown').append(select);
       })
       .catch(error => console.log(error));
     }
@@ -62,26 +77,14 @@ export default class FriendForm extends Component {
         this.refs.form.reset();
       }
     }
+    
     render () {
       return (
         <form id="form" ref="form" class="form-inline pt-md-3 pl-md-5" onSubmit={this.onSubmit}>
           <input class="form-control mr-sm-2" type="search" ref="friendName" placeholder="Name" aria-label="Search"></input>
-          // <select class="selectpicker" data-live-search="true" title="Search Origin">
-          //   <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-          //   <option data-tokens="mustard">Burger, Shake and a Smile</option>
-          //   <option data-tokens="frosting">Sugar, Spice and all things nice</option>
-          // </select>
-          // <input class="form-control mr-sm-2" type="search" ref="friendOrigin" placeholder="Origin" aria-label="Search"></input>
+          <div id="selectDropdown"></div>
           <button class="btn btn-info success my-2 my-sm-0" type="submit">Add</button>
         </form>
-        // <form ref="form" onSubmit={this.onSubmit} className="form-inline">
-        //   <input type="text" ref="itemName" className="form-control" placeholder="add a new todo..."/>
-        //   <button type="submit" className="btn btn-default">Add</button>
-        // </form>
       );
     }
   }
-// export default connect(
-//     ({ FriendForm }) => ({ ...FriendForm }),
-//     dispatch => bindActionCreators({ ...FriendFormActions }, dispatch)
-//   )( FriendForm );
