@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 import FriendForm from '../FriendForm';
 import FriendList from '../FriendList';
+import Map from '../../Map.js';
 // import { connect } from "react-redux";
 // import { bindActionCreators } from "redux";
 // import * as AppActions from "../../store/App/actions";
@@ -49,6 +50,7 @@ export default class App extends Component {
               <FriendForm addFriend={this.addFriend} />
             </div>
           </container>
+          <Map/>
           </Fragment>
       );
     }
